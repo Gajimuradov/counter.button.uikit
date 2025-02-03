@@ -1,0 +1,143 @@
+// components/Counter/Counter.styl
+
+:root {
+  --color-primary: #2FB675;
+  --color-primary-text: #FFFFFF;
+  --color-secondary: #8366561F;
+  --color-secondary-text: #2E2F33;
+}
+
+.counter {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  font-family: roboto;
+  font-weight: 500;
+  transition: all 0.2s;
+  position: relative;
+  box-sizing: border-box;
+
+  // Варианты стилей
+  &.primary {
+    background: var(--color-primary, #2FB675);
+    color: var(--color-primary-text, #FFFFFF);
+    --pulse-color: var(--color-primary, #2FB675);
+  }
+
+  &.secondary {
+    background: var(--color-secondary, #8366561F);
+    color: var(--color-secondary-text, #2E2F33);
+    --pulse-color: var(--color-secondary, #8366561F);
+  }
+
+  // Текстовое значение
+  .counter-value {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    line-height: 1;
+    white-space: nowrap;
+    z-index: 2;
+  }
+
+  // Стили для пульсации
+  &.pulse {
+      background: transparent !important;
+    border: none !important;
+
+    .pulse-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      
+    }
+
+    .pulse-dot {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: var(--pulse-color);
+      opacity: 1;
+    }
+
+    .pulse-wave {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: var(--pulse-color);
+      animation: pulse-animation 2s infinite;
+      opacity: 0.2; // Уменьшаем начальную прозрачность
+      z-index: 0;
+
+      &.one {
+        animation-delay: 0s;
+      }
+
+      &.two {
+        animation-delay: 1s;
+      }
+    }
+  }
+}
+
+// Анимация пульсации
+@keyframes pulse-animation {
+  0% {
+    opacity: 0.2;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.0;
+    transform: scale(3);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(3);
+  }
+}
+
+// Стили для разных размеров
+.counter[style*="--size:8"],
+.counter[style*="--size:12"] {
+  .counter-value {
+    display: none;
+  }
+}
+
+.counter[style*="--size:16"] {
+  min-height: 16px;
+  padding: 0 4px;
+  font-weight: 800;
+  font-size: 11px;
+  height: 12px;
+  width: 7px;
+}
+
+.counter[style*="--size:20"] {
+  min-height: 20px;
+  padding: 0 4px;
+  font-weight: 500;
+  font-size:13px;
+  width: 8px;
+height: 16px;
+
+}
+
+.counter[style*="--size:24"] {
+  min-height: 24px;
+  padding: 0 6px;
+  font-weight: 500;
+  font-size:15px;
+  width: 9px;
+height: 20px;
+
+}
