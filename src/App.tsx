@@ -1,4 +1,4 @@
-import './App.css'
+import { Button } from './components/Button/Button';
 import { Counter } from './components/Counter/Counter'
 
 function App() {
@@ -64,6 +64,7 @@ function App() {
 					pulse
 				/>{" "}
 			</div>
+			<div></div>
 		</>
 	);
 }
