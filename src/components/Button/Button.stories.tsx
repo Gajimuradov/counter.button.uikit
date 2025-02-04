@@ -1,3 +1,5 @@
+//Button.stories.tsx
+
 import type { Meta, StoryObj } from "@storybook/react";
 import { Button } from "./Button";
 
@@ -5,6 +7,17 @@ const meta: Meta<typeof Button> = {
 	title: "Components/Button",
 	component: Button,
 	argTypes: {
+		counter: {
+			control: "object",
+			// Можно прописать подопции, но важнее – задать дефолт
+			defaultValue: {
+				value: 5, // чтобы точно было что-то в value
+				size: 16,
+				variant: "primary",
+				stroke: false,
+				pulse: false,
+			},
+		},
 		label: { control: "text" },
 		style: {
 			control: { type: "radio" },

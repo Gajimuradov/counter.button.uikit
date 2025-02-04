@@ -1,38 +1,44 @@
 // components/Counter/Counter.tsx
-import { CSSProperties, useMemo } from 'react'
-import './Counter.styl'
+import { CSSProperties, useMemo } from "react";
+import "./Counter.styl";
 
 interface CounterProps {
-  value: number | string
-  size?: 8 | 12 | 16 | 20 | 24
-  variant?: 'primary' | 'secondary'
-  stroke?: boolean
-  pulse?: boolean
-  className?: string
+	value: number | string;
+	size?: 8 | 12 | 16 | 20 | 24;
+	variant?: "primary" | "secondary";
+	stroke?: boolean;
+	pulse?: boolean;
+	className?: string;
 }
 
 const SIZE_CONFIG = {
-  8: { padding: 0, minSize: 8, strokeWidth: 1 },
-  12: { padding: 0, minSize: 12, strokeWidth: 2 },
-  16: { padding: 4, minSize: 16, strokeWidth: 2 },
-  20: { padding: 4, minSize: 20, strokeWidth: 2 },
-  24: { padding: 6, minSize: 24, strokeWidth: 3 },
-}
+	8: { padding: 0, minSize: 8, strokeWidth: 1 },
+	12: { padding: 0, minSize: 12, strokeWidth: 2 },
+	16: { padding: 4, minSize: 16, strokeWidth: 2 },
+	20: { padding: 4, minSize: 20, strokeWidth: 2 },
+	24: { padding: 6, minSize: 24, strokeWidth: 3 },
+};
 
 export const Counter = ({
-  value,
-  size = 24,
-  variant = 'primary',
-  stroke = false,
-  pulse = false,
-  className = '',
+	value,
+	size = 24,
+	variant = "primary",
+	stroke = false,
+	pulse = false,
+	className = "",
 }: CounterProps) => {
 	const formattedValue = useMemo(() => {
+		if (value === undefined || value === null) {
+			return "";
+		}
 		if (typeof value === "number" || !isNaN(Number(value))) {
 			const numericValue = Number(value);
 			return numericValue > 99 ? "99+" : numericValue.toString();
 		}
-		return value.slice(0, 3);
+		if (typeof value === "string") {
+			return value.slice(0, 3);
+		}
+		return "";
 	}, [value]);
 
 	const showText = size >= 16;
@@ -63,4 +69,4 @@ export const Counter = ({
 			)}
 		</div>
 	);
-}
+};

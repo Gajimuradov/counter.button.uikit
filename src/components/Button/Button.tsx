@@ -1,13 +1,22 @@
 import React, { FC, MouseEvent } from "react";
 import classNames from "classnames";
 import "./Button.styl";
-
-import loaderSvg from "../../assets/tube-spinner.svg"
+import { Counter } from "../Counter/Counter";
+import loaderSvg from "../../assets/tube-spinner.svg";
 
 // Типы, если нужно больше вариантов — расширяйте
 type ButtonStyle = "primary" | "secondary";
 type ButtonSize = 28 | 36 | 56;
 type ButtonState = "enabled" | "disabled" | "loading";
+
+interface CounterPropsInButton {
+	value: number | string;
+	size?: 8 | 12 | 16 | 20 | 24;
+	variant?: "primary" | "secondary";
+	stroke?: boolean;
+	pulse?: boolean;
+	className?: string;
+}
 
 interface ButtonProps {
 	/** Текст кнопки */
@@ -22,6 +31,8 @@ interface ButtonProps {
 	onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
 	/** Показывать ли обводку фокуса */
 	focused?: boolean;
+
+	counter?: CounterPropsInButton;
 }
 
 const SIZE_TOKENS = {
@@ -37,11 +48,11 @@ export const Button: FC<ButtonProps> = ({
 	state = "enabled",
 	onClick,
 	focused = false,
+	counter,
 }) => {
 	const isDisabled = state === "disabled";
 	const isLoading = state === "loading";
 
-	// Берём из таблички нужные отступы и размер шрифта
 	const { paddingX, paddingY, fontSize } = SIZE_TOKENS[size];
 
 	const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
@@ -63,11 +74,10 @@ export const Button: FC<ButtonProps> = ({
 				{ "Button--focused": focused },
 			)}
 			style={{
-				// Параметры стиля, которые зависят от size
 				padding: `${paddingY}px ${paddingX}px`,
 				fontSize: fontSize,
 			}}>
-			{/* Если состояние loading — показываем иконку, иначе текст */}
+			{/* Если loading, показываем иконку, иначе текст */}
 			{isLoading ? (
 				<img
 					className='Button__loader'
@@ -82,6 +92,18 @@ export const Button: FC<ButtonProps> = ({
 					title={label}>
 					{label}
 				</span>
+			)}
+
+			{/* Рендерим счётчик, если передан */}
+			{counter && (
+				<Counter
+					value={counter.value}
+					size={counter.size}
+					variant={counter.variant}
+					stroke={counter.stroke}
+					pulse={counter.pulse}
+					className={classNames("Button__counter", counter.className)}
+				/>
 			)}
 		</button>
 	);
