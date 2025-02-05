@@ -37,7 +37,6 @@ export default meta;
 
 type Story = StoryObj<typeof Counter>;
 
-// Базовая история
 export const Default: Story = {
 	args: {
 		value: 42,
@@ -47,16 +46,14 @@ export const Default: Story = {
 	},
 };
 
-// История с обрезанным значением
 export const OverflowValue: Story = {
 	args: {
-		value: 150, // Должно отображаться "99+"
+		value: 150, 
 		size: 20,
 		variant: "secondary",
 	},
 };
 
-// Пульсация для primary
 export const PrimaryWithPulse: Story = {
 	args: {
 		...Default.args,
@@ -67,7 +64,6 @@ export const PrimaryWithPulse: Story = {
 	},
 };
 
-// Пульсация для secondary
 export const SecondaryWithPulse: Story = {
 	args: {
 		value: "new",

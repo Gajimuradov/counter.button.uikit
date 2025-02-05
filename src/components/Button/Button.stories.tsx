@@ -5,11 +5,10 @@ const meta: Meta<typeof Button> = {
 	title: "Components/Button",
 	component: Button,
 	argTypes: {
-		// Параметры для counter
 		counter: {
 			control: "object",
 			defaultValue: {
-				value: 5, // Значение по умолчанию
+				value: 5,
 				size: 16,
 				variant: "primary",
 				stroke: false,
@@ -40,7 +39,6 @@ const meta: Meta<typeof Button> = {
 export default meta;
 type Story = StoryObj<typeof Button>;
 
-/** Базовый вариант */
 export const Primary: Story = {
 	args: {
 		label: "Primary Button",

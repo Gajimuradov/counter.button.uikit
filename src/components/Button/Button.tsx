@@ -19,10 +19,6 @@ interface ButtonProps {
 	state?: ButtonState;
 	onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
 	focused?: boolean;
-	/**
-	 * Если нужно отобразить счётчик, передаём объект { value? }.
-	 * Если undefined/null — не рендерим счётчик.
-	 */
 	counter?: ButtonCounterProps;
 }
 
@@ -44,8 +40,6 @@ export const Button: FC<ButtonProps> = ({
 		}
 	};
 
-	// Если есть counter, используем value (или 5 по умолчанию),
-	// остальные поля Counter не нужны (только value).
 	const counterValue = counter ? counter.value ?? 5 : undefined;
 
 	return (
@@ -60,7 +54,6 @@ export const Button: FC<ButtonProps> = ({
 				`Button--${state}`,
 				{ "Button--focused": focused },
 			)}>
-			{/* Контент (Label + Counter). При loading → opacity=0 */}
 			<div className='Button__content'>
 				<span
 					className='Button__label'
@@ -76,7 +69,6 @@ export const Button: FC<ButtonProps> = ({
 				)}
 			</div>
 
-			{/* Loader в центре, если loading */}
 			{isLoading && (
 				<img
 					className='Button__loader'

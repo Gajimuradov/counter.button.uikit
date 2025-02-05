@@ -11,40 +11,32 @@
   border-radius 9999px
   transition all 0.3s ease-out
 
-  // primary vs secondary
   &--primary
     background-color #FF7700
     color #fff
-    .Button__counter {}
 
   &--secondary
-    background-color #f5f5f5
+    background-color #8366561F
     color #222
 
-  // disabled
   &--disabled
     opacity 0.36
     cursor not-allowed
 
-  // focus
   &--focused
     box-shadow 0 0 0 2px rgba(#0080ff, 0.5)
 
-  // общий контент
   &__content
     display inline-flex
     align-items center
     transition opacity 0.3s ease
 
-  // текст
   &__label
     white-space nowrap
     overflow hidden
     text-overflow ellipsis
     max-width 100%
 
-  // переопределяем стили для counter,
-  // чтобы у него был фон #FFFFFF1F и цвет совпадал с кнопкой
   &__counter
     background: #FFFFFF1F !important
     color: inherit !important
@@ -53,7 +45,6 @@
     padding 0 6px
 
 
-  // loader
   &__loader
     position absolute
     transform translate(-50%, -50%)
@@ -65,7 +56,6 @@
     100%
       transform rotate(360deg)
 
-  // При loading скрываем контент
   &--loading
     .Button__content
       opacity 0
