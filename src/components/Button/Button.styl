@@ -1,87 +1,92 @@
 .Button
+  position relative
   display inline-flex
   align-items center
   justify-content center
-  font-family roboto
   border none
   outline none
   cursor pointer
   font-family inherit
   font-weight 500
   border-radius 9999px
-  position relative
   transition 0.3s ease-out
-
-  // Текст, который обрезается при длинной строке
-  .Button__label
-    white-space nowrap
-    overflow hidden
-    text-overflow ellipsis
-    max-width 100%
-
-  // Иконка загрузки
-  .Button__loader
-    animation spin 1s linear infinite
-
-  // Анимация вращения (для loader)
-  @keyframes spin
-    0%
-      transform rotate(0deg)
-    100%
-      transform rotate(360deg)
+  border-radius: 16px
 
   // Стили для primary
   &--primary
     background-color #FF7700
-    color #ffffff
+    color #fff
 
   // Стили для secondary
   &--secondary
     background-color #f5f5f5
     color #222
-    border 1px solid #ccc
 
   // Состояния
-  &--enabled
-    &:hover
-      opacity 0.9
-      transform scale(1.02)
-
-    &:active
-      opacity 0.8
-      transform scale(0.98)
-
   &--disabled
     opacity 0.36
     cursor not-allowed
 
-  &--loading
-    // Можно добавить стили для анимации
-
   &--focused
     box-shadow 0 0 0 2px rgba(#0080ff, 0.5)
 
-  // Модификаторы размера
-  &--size-28
-    // Некоторые дополнительные настройки, 
-    // если нужно отличить от inline-style
-    // например, min-height, line-height и т.п.
+  // Размеры можно указывать через &--size-28, etc. если нужно.
+  // &--size-56, ...
 
-  &--size-36
-    // ...
-
-  &--size-56
-    // ...
-
- &__content
+  // Контейнер контента
+  &__content
     display inline-flex
     align-items center
+    transition opacity 0.3s ease
 
   &__label
     white-space nowrap
     overflow hidden
     text-overflow ellipsis
     max-width 100%
+    font-family roboto
 
   &__counter
+    margin-left 8px  // при желании можно использовать gap
+
+  // Loader
+  &__loader
+    position absolute
+    transform translate(-50%, -50%)
+    animation spin 1s linear infinite
+
+  @keyframes spin
+    0%
+      transform rotate(0deg)
+    100%
+      transform rotate(360deg)
+
+  // В состоянии loading скрываем контент
+  &--loading
+    .Button__content
+      opacity 0
+
+  &:hover
+      // + 2px по высоте => сверху +1px, снизу +1px
+      // + 6px по ширине => слева +3px, справа +3px
+      padding-top calc(var(--btn-padding-top) + 1px)
+      padding-bottom calc(var(--btn-padding-bottom) + 1px)
+      padding-left calc(var(--btn-padding-left) + 3px)
+      padding-right calc(var(--btn-padding-right) + 3px)
+
+  &:active
+      transform scale(0.98)
+
+  &__counter
+    // Ставим фон #FFFFFF1F и наследуем цвет шрифта
+    background-color #FFFFFF1F
+    color inherit
     margin-left 8px
+    border-radius 9999px
+    padding 0 6px
+
+  &--size-28
+    border-radius: 9.3px
+
+  &--size-36
+    border-radius: 12px

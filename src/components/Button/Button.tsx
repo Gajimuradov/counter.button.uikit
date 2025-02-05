@@ -4,13 +4,12 @@ import "./Button.styl";
 import { Counter } from "../Counter/Counter";
 import loaderSvg from "../../assets/tube-spinner.svg";
 
-// Типы, если нужно больше вариантов — расширяйте
 type ButtonStyle = "primary" | "secondary";
 type ButtonSize = 28 | 36 | 56;
 type ButtonState = "enabled" | "disabled" | "loading";
 
 interface CounterPropsInButton {
-	value: number | string;
+	value?: number | string;
 	size?: 8 | 12 | 16 | 20 | 24;
 	variant?: "primary" | "secondary";
 	stroke?: boolean;
@@ -19,19 +18,12 @@ interface CounterPropsInButton {
 }
 
 interface ButtonProps {
-	/** Текст кнопки */
 	label: string;
-	/** Стиль (primary/secondary) */
 	style?: ButtonStyle;
-	/** Размер (28, 36, 56) */
 	size?: ButtonSize;
-	/** Состояние (enabled/disabled/loading) */
 	state?: ButtonState;
-	/** Обработчик клика */
 	onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
-	/** Показывать ли обводку фокуса */
 	focused?: boolean;
-
 	counter?: CounterPropsInButton;
 }
 
@@ -53,13 +45,19 @@ export const Button: FC<ButtonProps> = ({
 	const isDisabled = state === "disabled";
 	const isLoading = state === "loading";
 
+	// Извлекаем отступы и fontSize из SIZE_TOKENS
 	const { paddingX, paddingY, fontSize } = SIZE_TOKENS[size];
 
+	// Клик
 	const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
 		if (!isDisabled && !isLoading && onClick) {
 			onClick(e);
 		}
 	};
+
+	// Чтобы у Counter было хотя бы дефолтное значение
+	// (если вдруг в Storybook забыли указать его)
+	const counterValue = counter?.value ?? 5;
 
 	return (
 		<button
@@ -77,32 +75,34 @@ export const Button: FC<ButtonProps> = ({
 				padding: `${paddingY}px ${paddingX}px`,
 				fontSize: fontSize,
 			}}>
-			{/* Если loading, показываем иконку, иначе текст */}
-			{isLoading ? (
+			{/* Контейнер для контента (label+counter).
+          При loading делаем opacity=0 (через CSS). */}
+			<div className='Button__content'>
+				<span
+					className='Button__label'
+					title={label}>
+					{label}
+				</span>
+				{counter && (
+					<Counter
+						value={counterValue}
+						size={counter.size}
+						variant={counter.variant}
+						stroke={counter.stroke}
+						pulse={counter.pulse}
+						className={classNames("Button__counter", counter.className)}
+					/>
+				)}
+			</div>
+
+			{/* При loading показываем Loader, позиционируем в центре */}
+			{isLoading && (
 				<img
 					className='Button__loader'
 					src={loaderSvg}
 					alt='Loading...'
 					width='20'
 					height='20'
-				/>
-			) : (
-				<span
-					className='Button__label'
-					title={label}>
-					{label}
-				</span>
-			)}
-
-			{/* Рендерим счётчик, если передан */}
-			{counter && (
-				<Counter
-					value={counter.value}
-					size={counter.size}
-					variant={counter.variant}
-					stroke={counter.stroke}
-					pulse={counter.pulse}
-					className={classNames("Button__counter", counter.className)}
 				/>
 			)}
 		</button>
