@@ -6,50 +6,54 @@
   border none
   outline none
   cursor pointer
-  font-family inherit
+  font-family roboto
   font-weight 500
   border-radius 9999px
-  transition 0.3s ease-out
-  border-radius: 16px
+  transition all 0.3s ease-out
 
-  // Стили для primary
+  // primary vs secondary
   &--primary
     background-color #FF7700
     color #fff
+    .Button__counter {}
 
-  // Стили для secondary
   &--secondary
     background-color #f5f5f5
     color #222
 
-  // Состояния
+  // disabled
   &--disabled
     opacity 0.36
     cursor not-allowed
 
+  // focus
   &--focused
     box-shadow 0 0 0 2px rgba(#0080ff, 0.5)
 
-  // Размеры можно указывать через &--size-28, etc. если нужно.
-  // &--size-56, ...
-
-  // Контейнер контента
+  // общий контент
   &__content
     display inline-flex
     align-items center
     transition opacity 0.3s ease
 
+  // текст
   &__label
     white-space nowrap
     overflow hidden
     text-overflow ellipsis
     max-width 100%
-    font-family roboto
 
+  // переопределяем стили для counter,
+  // чтобы у него был фон #FFFFFF1F и цвет совпадал с кнопкой
   &__counter
-    margin-left 8px  // при желании можно использовать gap
+    background: #FFFFFF1F !important
+    color: inherit !important
+    margin-left 8px
+    border-radius 9999px
+    padding 0 6px
 
-  // Loader
+
+  // loader
   &__loader
     position absolute
     transform translate(-50%, -50%)
@@ -61,32 +65,36 @@
     100%
       transform rotate(360deg)
 
-  // В состоянии loading скрываем контент
+  // При loading скрываем контент
   &--loading
     .Button__content
       opacity 0
 
-  &:hover
-      // + 2px по высоте => сверху +1px, снизу +1px
-      // + 6px по ширине => слева +3px, справа +3px
-      padding-top calc(var(--btn-padding-top) + 1px)
-      padding-bottom calc(var(--btn-padding-bottom) + 1px)
-      padding-left calc(var(--btn-padding-left) + 3px)
-      padding-right calc(var(--btn-padding-right) + 3px)
+  &--size-28
+    padding 6px 10px
+    font-size 13px
+    border-radius: 9.3px;
 
-  &:active
+    &:hover
+      padding 7px 13px
+    &:active
       transform scale(0.98)
 
-  &__counter
-    // Ставим фон #FFFFFF1F и наследуем цвет шрифта
-    background-color #FFFFFF1F
-    color inherit
-    margin-left 8px
-    border-radius 9999px
-    padding 0 6px
-
-  &--size-28
-    border-radius: 9.3px
-
   &--size-36
-    border-radius: 12px
+    padding 8px 12px
+    font-size 14px
+    border-radius: 12px;
+
+    &:hover
+      padding 9px 15px
+    &:active
+      transform scale(0.98)
+
+  &--size-56
+    padding 16px 16px
+    font-size 16px
+    border-radius: 16px;
+    &:hover
+      padding 17px 19px
+    &:active
+      transform scale(0.98)

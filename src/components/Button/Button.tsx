@@ -8,13 +8,8 @@ type ButtonStyle = "primary" | "secondary";
 type ButtonSize = 28 | 36 | 56;
 type ButtonState = "enabled" | "disabled" | "loading";
 
-interface CounterPropsInButton {
+interface ButtonCounterProps {
 	value?: number | string;
-	size?: 8 | 12 | 16 | 20 | 24;
-	variant?: "primary" | "secondary";
-	stroke?: boolean;
-	pulse?: boolean;
-	className?: string;
 }
 
 interface ButtonProps {
@@ -24,14 +19,12 @@ interface ButtonProps {
 	state?: ButtonState;
 	onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
 	focused?: boolean;
-	counter?: CounterPropsInButton;
+	/**
+	 * Если нужно отобразить счётчик, передаём объект { value? }.
+	 * Если undefined/null — не рендерим счётчик.
+	 */
+	counter?: ButtonCounterProps;
 }
-
-const SIZE_TOKENS = {
-	28: { paddingX: 10, paddingY: 6, fontSize: 13 },
-	36: { paddingX: 12, paddingY: 8, fontSize: 14 },
-	56: { paddingX: 16, paddingY: 16, fontSize: 16 },
-} as const;
 
 export const Button: FC<ButtonProps> = ({
 	label,
@@ -45,19 +38,15 @@ export const Button: FC<ButtonProps> = ({
 	const isDisabled = state === "disabled";
 	const isLoading = state === "loading";
 
-	// Извлекаем отступы и fontSize из SIZE_TOKENS
-	const { paddingX, paddingY, fontSize } = SIZE_TOKENS[size];
-
-	// Клик
 	const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
 		if (!isDisabled && !isLoading && onClick) {
 			onClick(e);
 		}
 	};
 
-	// Чтобы у Counter было хотя бы дефолтное значение
-	// (если вдруг в Storybook забыли указать его)
-	const counterValue = counter?.value ?? 5;
+	// Если есть counter, используем value (или 5 по умолчанию),
+	// остальные поля Counter не нужны (только value).
+	const counterValue = counter ? counter.value ?? 5 : undefined;
 
 	return (
 		<button
@@ -70,32 +59,24 @@ export const Button: FC<ButtonProps> = ({
 				`Button--size-${size}`,
 				`Button--${state}`,
 				{ "Button--focused": focused },
-			)}
-			style={{
-				padding: `${paddingY}px ${paddingX}px`,
-				fontSize: fontSize,
-			}}>
-			{/* Контейнер для контента (label+counter).
-          При loading делаем opacity=0 (через CSS). */}
+			)}>
+			{/* Контент (Label + Counter). При loading → opacity=0 */}
 			<div className='Button__content'>
 				<span
 					className='Button__label'
 					title={label}>
 					{label}
 				</span>
+
 				{counter && (
 					<Counter
 						value={counterValue}
-						size={counter.size}
-						variant={counter.variant}
-						stroke={counter.stroke}
-						pulse={counter.pulse}
-						className={classNames("Button__counter", counter.className)}
+						className='Button__counter'
 					/>
 				)}
 			</div>
 
-			{/* При loading показываем Loader, позиционируем в центре */}
+			{/* Loader в центре, если loading */}
 			{isLoading && (
 				<img
 					className='Button__loader'

@@ -1,3 +1,5 @@
+//counter.stories.tsx
+
 import type { Meta, StoryObj } from "@storybook/react";
 import { Counter } from "./Counter.tsx";
 
